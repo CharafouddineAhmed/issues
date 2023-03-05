@@ -23,7 +23,6 @@ export class IssueDetailComponent implements OnInit  {
   content! : string;
 
   fileUrl: string | undefined;
-
   issue: Issue | undefined;
   fileContent: string | undefined;
 
@@ -50,42 +49,6 @@ export class IssueDetailComponent implements OnInit  {
       })
       this.fileUrl = url;
     });
-
-
-
-  
-    // if (this.id) {
-    //   this.afs.collection('issues').doc<Issue>(this.id).valueChanges().subscribe(issue => {
-    //     this.issue = issue;
-    //     if (issue) {
-    //       const fileName = `${issue.id}.md`;
-    //       const ref = this.storage.ref('contents/' + fileName);
-    //       ref.getDownloadURL().subscribe(url => {
-    //         this.fileUrl = url;
-    //       });
-    //     }
-    //   });
-    // }
-
-    // if (this.id) {
-    //   this.afs.collection('issues').doc<Issue>(this.id).valueChanges().subscribe(issue => {
-    //     this.issue = issue;
-    //     if (issue) {
-    //       const fileName = `${issue.id}.md`;
-    //       const ref = this.storage.ref('contents/' + fileName);
-    //       ref.getDownloadURL().subscribe(url => {
-    //         this.http.get(url, { responseType: 'text' }).subscribe(fileContent => {
-    //           
-    //           this.fileContent = fileContent;
-    //           console.log('l URL est : ' + url + ' et le contneu est : ' +this.fileContent);
-    //           
-    //         });
-    //       });
-    //     }
-    //   });
-    // }
-    
-
   }
 
 }
