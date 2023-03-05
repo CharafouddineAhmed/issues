@@ -1,0 +1,95 @@
+<!-- titre-->
+<div class="card mb-4">
+    <div class="card-body text-center">
+        This is some text within a card body.
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis possimus quasi, facere molestiae quo qui neque libero optio modi, repellendus culpa perferendis, impedit autem fugit dolores assumenda expedita quam laudantium.
+    </div>
+</div>
+<!-- end titre-->
+
+<!--Issue details -->
+<div class="row mb-4">
+  
+    <div class="row mb-2">
+      <h3> {{ (issue$ | async)?.title }} </h3>
+    </div>
+
+    <div class="row mb-2">
+
+      <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-group me-2" role="group" aria-label="Second group">
+          <p> <i><span>{{ (issue$ | async)?.postBy }} opened this issue {{ (issue$ | async)?.dateCreated }} · 0 comments </span> </i></p>
+        </div>
+      
+      </div>
+    </div>
+
+    <div class="row  mb-2">
+      <hr>
+    </div>
+
+    <div class="row  mb-2">
+      <div class="card border-secondary ">
+        <div class="card-header">
+          {{ (issue$ | async)?.postBy }} commented 3 weeks ago
+        </div>
+        <!--<ul class="list-group list-group-flush">
+          <li class="list-group-item">{{ (issue$ | async)?.content  }} </li>
+          
+        </ul> -->
+
+        <ul>
+            <li>
+              <markdown [src]="fileUrl"  ></markdown>
+            </li>
+        </ul>
+  
+      </div>
+
+      <div style="border-left: 2px solid #ccc;
+      height: 10%;
+      margin: 0 20px;"></div>
+
+      <div class="card border-secondary ">
+        <div class="card-header"><ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Write</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Preview</a>
+          </li>
+        </ul></div>
+        <div class="card-body text-secondary">
+          
+          <div class="mb-3">
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Leave a comment"></textarea>
+          </div>
+          <div class="mb-3 ">
+
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+              <div class="btn-group me-2" role="group" aria-label="First group">
+                <button type="button" class="btn btn-sm btn-secondary">Close as completed</button>
+              </div>
+              <div class="btn-group me-2" role="group" aria-label="Second group">
+                <button type="button" class="btn btn-sm btn-secondary">Close as not planned</button>
+              </div>
+              <div class="btn-group me-2" role="group" aria-label="Second group">
+                <button type="button" class="btn btn-sm btn-secondary">Help by ChatGPT</button>
+              </div>
+              <div class="btn-group me-2" role="group" aria-label="Second group">
+                <button type="button" class="btn btn-sm btn-secondary" routerLink="/issues">List issues</button>
+              </div>
+              <div class="btn-group" role="group" aria-label="Third group">
+                <button type="button" class="btn btn-sm btn-success">Comment</button>
+              </div>
+            </div>
+            
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!--END Issue details-->

@@ -1,0 +1,203 @@
+<div class="container-fluid ">
+    <div class="row mt-4">
+      <div class="col"></div>
+      <div class="col-lg-6">
+        
+        <!-- titre-->
+        <div class="card mb-4">
+          <div class="card-body text-center">
+            This is some text within a card body.
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis possimus quasi, facere molestiae quo qui neque libero optio modi, repellendus culpa perferendis, impedit autem fugit dolores assumenda expedita quam laudantium.
+          </div>
+        </div>
+        <!-- end titre-->
+  
+        <div class="row mb-4">
+          <div class="col">
+            <!--filtres -->
+            <div ngbDropdown>
+              <button class="btn btn-sm btn-outline-secondary dropdown-toggle" id="gfg" 
+                      ngbDropdownToggle type="button" data-bs-toggle="dropdown" aria-expanded="false">Filtres</button>
+              <div ngbDropdownMenu="gfg">
+                <button ngbDropdownItem>GeeksforGeeks</button>
+                <button ngbDropdownItem>Angular10</button>
+                <button ngbDropdownItem>ng bootstrap</button>
+              </div>
+            </div>  
+            <!--END filtres -->
+          </div>
+        
+          <div class="col col-lg-6">
+            <div class="input-group">
+              
+              <input type="text" class="form-control form-control-sm" aria-label="Search all issues" placeholder="Search all issues">
+            </div>
+          </div>
+        
+          <div class="col">
+            <div class="btn-group btn-group-sm" role="group" aria-label="Small button group">
+              <button type="button" class="btn btn-outline-dark"> Created</button>
+              <button type="button" class="btn btn-outline-dark">Assigned</button>
+              <button type="button" class="btn btn-outline-dark"> Mentioned</button>
+            
+            </div>
+          </div>
+  
+          <div class="col">
+            <button type="button" class="btn btn-success btn-sm"> New issues</button>
+          </div>
+        </div>
+  
+        <!--query clear -->
+        <div class="row mb-4">
+          
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+           Clear current search query, filters, and sorts !
+          </div>
+        </div>
+        <!--END query clear -->
+  
+        <!--Issue list -->
+        <div class="row mb-4">
+          <div class="col">
+  
+            <div class="card">
+              <div class="card-header">
+                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                  <div class="btn-group me-2" role="group" aria-label="First group">
+                    <button type="button" class="btn btn-link" style="color: inherit; font-weight: bold; text-decoration: none !important;">
+                      <i class="bi bi-circle"></i> 2 Open 
+                    </button>
+                  </div>
+                  
+                  <div class="btn-group" role="group" aria-label="Second group">
+                    <button type="button" class="btn btn-link" style="color: inherit; font-weight: bold; text-decoration: none !important;">
+                      <i class="bi bi-check-circle-fill"></i> 4 Close 
+                    </button>
+  
+                  </div>
+                </div>
+              </div>
+              
+                        
+              <ol class="list-group ">
+                
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <a href="#" style="color: inherit; text-decoration: none !important;" >
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold"><i class="bi bi-circle"></i> Symptôme : Grand nombre de rejets du pool de threads</div>
+                        #2313 Opened 3 weeks ago by @Ahmed CHARAFOUDDINE 
+                      </div>
+                    </a>
+                  </li>
+                  
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <a href="#" style="color: inherit; text-decoration: none !important;" >
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold"><i class="bi bi-check-circle-fill"></i> GCC blabla bla </div>
+                        #2313 Opened 3 weeks ago by @XXX 
+                      </div>
+                    </a>
+                  </li>
+  
+                  <!-- ... -->
+                
+              </ol>
+            </div>
+  
+            
+           
+          </div>
+          
+        </div>
+        <!--END Issue list-->
+  
+        <!--Issue details -->
+        <div class="row mb-4">
+  
+          <div class="row mb-2">
+            <h3>Symptôme : Grand nombre de rejets du pool de threads</h3>
+          </div>
+  
+          <div class="row mb-2">
+  
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+              <div class="btn-group me-2" role="group" aria-label="Second group">
+                <p> <i><span>@CharafouddineAhmed opened this issue 3 weeks ago · 0 comments </span> </i></p>
+              </div>
+            
+            </div>
+          </div>
+  
+          <div class="row  mb-2">
+            <hr>
+          </div>
+  
+          <div class="row  mb-2">
+  
+         
+  
+            <div class="card border-secondary ">
+              <div class="card-header">
+                @CharafouddineAhmed commented 3 weeks ago
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item">Lorem ipsum dolor sit amet consectetur adipisicing elit. Et possimus libero eum, impedit ab illum cum nobis perferendis tempora dolore sit, maxime quidem cumque sed eos ut! Repellat, id distinctio!</li>
+                
+              </ul>
+            </div>
+  
+            <div style="border-left: 2px solid #ccc;
+            height: 10%;
+            margin: 0 20px;"></div>
+  
+            <div class="card border-secondary ">
+              <div class="card-header"><ul class="nav nav-tabs">
+                <li class="nav-item">
+                  <a class="nav-link active" aria-current="page" href="#">Write</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#">Preview</a>
+                </li>
+              </ul></div>
+              <div class="card-body text-secondary">
+                
+                <div class="mb-3">
+                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="leave a comment"></textarea>
+                </div>
+                <div class="mb-3 ">
+  
+                  <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                    <div class="btn-group me-2" role="group" aria-label="First group">
+                      <button type="button" class="btn btn-sm btn-secondary">Close as completed</button>
+                    </div>
+                    <div class="btn-group me-2" role="group" aria-label="Second group">
+                      <button type="button" class="btn btn-sm btn-secondary">Close as not planned</button>
+                    </div>
+                    <div class="btn-group me-2" role="group" aria-label="Second group">
+                      <button type="button" class="btn btn-sm btn-secondary">Help by ChatGPT</button>
+                    </div>
+                    <div class="btn-group" role="group" aria-label="Third group">
+                      <button type="button" class="btn btn-sm btn-success">Comment</button>
+                    </div>
+                  </div>
+                  
+                </div>
+  
+  
+              </div>
+            </div>
+  
+            
+          </div>
+  
+        
+  
+        </div>
+        <!--END Issue details-->
+  
+      </div>
+      <div class="col"></div>
+    </div>  
+</div>

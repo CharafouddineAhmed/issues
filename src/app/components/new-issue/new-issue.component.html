@@ -1,0 +1,51 @@
+<!-- titre-->
+<div class="card mb-4">
+    <div class="card-body text-center">
+        This is some text within a card body.
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis possimus quasi, facere molestiae quo qui neque libero optio modi, repellendus culpa perferendis, impedit autem fugit dolores assumenda expedita quam laudantium.
+    </div>
+</div>
+<!-- end titre-->
+
+
+<div class="row">
+    <form  [formGroup]="issueForm" >
+        <div class="mb-3">
+            <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="Title" formControlName="title" id="title">
+        </div>
+    
+        <div class="mb-3">
+            <div class="card border-secondary ">
+                <div class="card-header"><ul class="nav nav-tabs">
+                    <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Write</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="nav-link" href="#">Preview</a>
+                    </li>
+                </ul></div>
+                <div class="card-body text-secondary">
+                    <div class="mb-3">
+                    <textarea class="form-control" id="content" rows="3" placeholder="leave a comment" formControlName="content"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    
+        <div class="mb-3 ">
+
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+              <div class="btn-group me-2" role="group" aria-label="First group">
+                <button type="button" (click)="addNewIssue()" class="btn btn-sm btn-success">Submit new issue</button>
+              </div>
+              <div class="btn-group me-2" role="group" aria-label="Second group">
+                <button type="button" class="btn btn-sm btn-secondary" routerLink="/issues">List issues</button>
+              </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
