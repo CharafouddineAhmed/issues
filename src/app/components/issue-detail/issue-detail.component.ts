@@ -1,5 +1,5 @@
 
-
+// https://github.com/iamacup/react-native-markdown-display/issues/110
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
@@ -17,7 +17,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class IssueDetailComponent implements OnInit  {
 
-  private issueDoc!: AngularFirestoreDocument<Issue>;
+  private issueDoc! : AngularFirestoreDocument<Issue >;
   issue$!: Observable<Issue | undefined>;
   id!: string;
   content! : string;
@@ -25,30 +25,42 @@ export class IssueDetailComponent implements OnInit  {
   fileUrl: string | undefined;
   issue: Issue | undefined;
   fileContent: string | undefined;
+  contenu : string = "";
 
   constructor(
     private route: ActivatedRoute, 
     private afs: AngularFirestore, 
     private storage: AngularFireStorage,
     private http: HttpClient) {
-    
   }
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id')!;
     this.issueDoc = this.afs.doc<Issue>(`issues/${this.id}`);
     this.issue$ = this.issueDoc.valueChanges();
-
-
-    const filePath = this.id + '.md';
-    const ref = this.storage.ref('contents/' + filePath);
-    ref.getDownloadURL().subscribe(url => {
-      this.http.get(url, {responseType: 'text'}).subscribe(fileContent => {
-        this.fileContent = fileContent; 
-        console.log(this.fileContent)
-      })
-      this.fileUrl = url;
-    });
+    
+    this.issue$.forEach(element => {
+      this.contenu = element?.content.replaceAll("\\n", "\n");
+    })
   }
 
+
+  /**
+   * Fonction à revoir
+   * @param id l'identifiant du post
+   */
+  // getMarkdownURL( id : string) {
+  //   const filePath = id + '.md';
+  //   const ref = this.storage.ref('contents/' + filePath);
+  //   ref.getDownloadURL().subscribe(url => {
+  //     this.http.get(url, {responseType: 'text'}).subscribe(fileContent => {
+  //       this.fileContent = fileContent; 
+  //     })
+  //     this.fileUrl = url;
+  // 
+  //     return 
+  //   });
+  // 
+  // }
+  // 
 }

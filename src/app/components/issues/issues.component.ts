@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-import { Observable } from 'rxjs';
+import { elementAt, Observable } from 'rxjs';
 import { Issue } from '../../modeles/issue';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 

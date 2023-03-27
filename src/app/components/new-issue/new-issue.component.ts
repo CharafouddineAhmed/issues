@@ -39,19 +39,22 @@ export class NewIssueComponent {
     const { serverTimestamp } = firebase.firestore.FieldValue;
     const fileContent = this.issueForm.value.content;
 
+    const contentUpdated = this.issueForm.value.content?.replace(/\n/g, '\\n');
+    console.log(contentUpdated);
+
     const issue: Issue = {
       id: id,
       status: 'open', // default value
       postBy: 'Ahmed CHARAFOUDDINE',
       title: this.issueForm.value.title,
-      content: this.issueForm.value.content,
+      content: contentUpdated,
       dateCreated: serverTimestamp(),
     };
 
     this.issuesCollection.doc(id).set(issue)
       .then(() => {
         this.issueForm.reset();
-        this.router.navigate(['/issues']);
+        //this.router.navigate(['/issues']);
       })
       .catch( e => {console.error('error : ', e)})
 

@@ -33,16 +33,14 @@
         <div class="card-header">
           {{ (issue$ | async)?.postBy }} commented 3 weeks ago
         </div>
-        <!--<ul class="list-group list-group-flush">
-          <li class="list-group-item">{{ (issue$ | async)?.content  }} </li>
-          
-        </ul> -->
-
+ 
         <ul>
-            <li>
-              <markdown [src]="fileUrl"  ></markdown>
-            </li>
-        </ul>
+          <li>
+            <markdown [data]="contenu"></markdown>
+          </li>
+                
+        </ul>     
+      
   
       </div>
 
