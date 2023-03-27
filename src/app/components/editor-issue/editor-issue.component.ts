@@ -1,11 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Issue } from '../../modeles/issue';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
+
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import firebase from "firebase/compat/app";
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+
+import { Issue, Comment } from '../../modeles/issue';
+
 
 @Component({
   selector: 'app-editor-issue',
@@ -16,6 +19,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 export class EditorIssueComponent {
 
   @Input('componentName') componentName = '';
+  @Input('issueId') issueId = '';
 
   issueForm = new FormGroup({
     title: new FormControl(''),
@@ -91,4 +95,25 @@ export class EditorIssueComponent {
     // });
   }
 
+
+  addNewCommentInIssue(){
+
+    const { serverTimestamp } = firebase.firestore.FieldValue;
+
+    const comment: Comment = {
+      postBy: 'Ahmed CHARAFOUDDINE',
+      content: this.issueForm.value.content?.replaceAll("\\n", "\n") || "",
+    }
+
+    // this.afs.doc(`issues/${this.issueId}`).update({
+    //   comments: comment
+    // });
+
+    this.afs.doc(`issues/${this.issueId}`).update({
+      comments: firebase.firestore.FieldValue.arrayUnion(comment)
+    });
+    // const updatedComments = [comment];
+
+
+  }
 }

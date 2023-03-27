@@ -27,6 +27,7 @@ export class IssueDetailComponent implements OnInit  {
   fileContent: string | undefined;
   contenu : string = "";
   componentName: string = "";
+  issueId: string = "";
 
   constructor(
     private route: ActivatedRoute, 
@@ -43,6 +44,8 @@ export class IssueDetailComponent implements OnInit  {
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id')!;
+    this.issueId = this.route.snapshot.paramMap.get('id')!;
+
     this.issueDoc = this.afs.doc<Issue>(`issues/${this.id}`);
     this.issue$ = this.issueDoc.valueChanges();
     

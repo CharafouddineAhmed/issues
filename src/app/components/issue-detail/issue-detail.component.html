@@ -20,7 +20,6 @@
         <div class="btn-group me-2" role="group" aria-label="Second group">
           <p> <i><span>{{ (issue$ | async)?.postBy }} opened this issue {{ (issue$ | async)?.dateCreated }} · 0 comments </span> </i></p>
         </div>
-      
       </div>
     </div>
 
@@ -46,7 +45,10 @@
       margin: 0 20px;"></div>
     </div>
 
-    <app-editor-issue [componentName]='componentName'></app-editor-issue>
+    <app-editor-issue 
+      [componentName]='componentName'
+      [issueId]='issueId'
+      ></app-editor-issue>
 
   </div>
   <!--END Issue details-->
