@@ -26,12 +26,19 @@ export class IssueDetailComponent implements OnInit  {
   issue: Issue | undefined;
   fileContent: string | undefined;
   contenu : string = "";
+  componentName: string = "";
 
   constructor(
     private route: ActivatedRoute, 
     private afs: AngularFirestore, 
     private storage: AngularFireStorage,
     private http: HttpClient) {
+
+      if (this.route.component) {
+        this.componentName = this.route.component.name;
+      } else {
+        this.componentName = "";
+      }
   }
 
   ngOnInit(): void {

@@ -19,7 +19,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { IssueDetailComponent } from './components/issue-detail/issue-detail.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { HttpClientModule } from '@angular/common/http';
-import { PreviewIssueComponent } from './componenets/preview-issue/preview-issue.component';
+import { EditorIssueComponent } from './components/editor-issue/editor-issue.component';
 
 
 @NgModule({
@@ -28,7 +28,7 @@ import { PreviewIssueComponent } from './componenets/preview-issue/preview-issue
     IssuesComponent,
     NewIssueComponent,
     IssueDetailComponent,
-    PreviewIssueComponent
+    EditorIssueComponent
   ],
   imports: [
     BrowserModule,
