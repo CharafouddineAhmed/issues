@@ -10,7 +10,7 @@ export interface Issue {
 
 export interface Comment {
   postBy?: String;
-  datePosted?: Date;
+  datePosted?: any;
   content?: string;
 }
   

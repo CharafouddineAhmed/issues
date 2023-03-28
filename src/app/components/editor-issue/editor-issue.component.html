@@ -1,8 +1,6 @@
 <div class="row">
     <form  [formGroup]="issueForm" >
         <ng-container *ngIf="viewOption; else templateA">
-            <p>{{componentName}}</p>
-
 
             <ng-container *ngIf="componentName !=='IssueDetailComponent'"> 
                 <div class="mb-3">
@@ -30,16 +28,13 @@
             </div>
         </ng-container>
         <ng-template #templateA>
-            <p>{{componentName}}</p>
 
             <ng-container *ngIf="componentName !=='IssueDetailComponent'"> 
                 <div class="mb-3">
                     <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="Title" formControlName="title" id="title">
                 </div>
             </ng-container>
-
-           
-
+            
             <div class="mb-3" >
                 <div class="card border-secondary ">
                     <div class="card-header"><ul class="nav nav-tabs">

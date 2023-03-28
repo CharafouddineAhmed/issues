@@ -82,7 +82,6 @@ export class EditorIssueComponent {
       })
       .catch( e => {console.error('error : ', e)})
 
-    
     // // Ajout dans storage 
     // const fileName = id + '.md';
     // const blob = new Blob([fileContent ? fileContent : ''], { type: 'text/markdown' });
@@ -103,17 +102,12 @@ export class EditorIssueComponent {
     const comment: Comment = {
       postBy: 'Ahmed CHARAFOUDDINE',
       content: this.issueForm.value.content?.replaceAll("\\n", "\n") || "",
+      datePosted: new Date(),
     }
-
-    // this.afs.doc(`issues/${this.issueId}`).update({
-    //   comments: comment
-    // });
 
     this.afs.doc(`issues/${this.issueId}`).update({
       comments: firebase.firestore.FieldValue.arrayUnion(comment)
     });
-    // const updatedComments = [comment];
-
 
   }
 }

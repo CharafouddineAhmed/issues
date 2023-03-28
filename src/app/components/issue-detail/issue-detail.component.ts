@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Issue } from '../../modeles/issue';
 import { map } from 'rxjs/operators';
+import { Comment } from '../../modeles/issue';
 
 import { HttpClient } from '@angular/common/http';
 
@@ -15,19 +16,18 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './issue-detail.component.html',
   styleUrls: ['./issue-detail.component.css']
 })
-export class IssueDetailComponent implements OnInit  {
+export class IssueDetailComponent  {
 
   private issueDoc! : AngularFirestoreDocument<Issue >;
   issue$!: Observable<Issue | undefined>;
+  commentaires: Comment[] | undefined  ; 
+
   id!: string;
   content! : string;
-
-  fileUrl: string | undefined;
   issue: Issue | undefined;
-  fileContent: string | undefined;
   contenu : string = "";
   componentName: string = "";
-  issueId: string = "";
+
 
   constructor(
     private route: ActivatedRoute, 
@@ -40,18 +40,21 @@ export class IssueDetailComponent implements OnInit  {
       } else {
         this.componentName = "";
       }
-  }
 
-  ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id')!;
-    this.issueId = this.route.snapshot.paramMap.get('id')!;
 
     this.issueDoc = this.afs.doc<Issue>(`issues/${this.id}`);
     this.issue$ = this.issueDoc.valueChanges();
+
+    this.issue$.subscribe(issue => {
+      this.commentaires = issue?.comments;
+    });
     
     this.issue$.forEach(element => {
       this.contenu = element?.content.replaceAll("\\n", "\n");
     })
+
+
   }
 
 

@@ -7,6 +7,13 @@
 </div>
 <!-- end titre-->
 
+<!--Alert -->
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+  <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<!--END Alert-->
+
 <!--Issue details -->
 <div class="row mb-4">
   
@@ -28,26 +35,36 @@
     </div>
 
     <div class="row mb-2">
-      <div class="card border-secondary ">
+      <div class="card border-secondary border-dark ">
         <div class="card-header">
           {{ (issue$ | async)?.postBy }} commented 3 weeks ago
         </div>
- 
-        <ul>
-          <li>
-            <markdown [data]="contenu"></markdown>
-          </li>
-        </ul>     
+
+        <div class="card-body">
+          <markdown [data]="contenu"></markdown>
+        </div>
       </div>
 
-      <div style="border-left: 2px solid #ccc;
-      height: 30px;
-      margin: 0 20px;"></div>
+      <div style="border-left: 2px solid #ccc; height: 15px; margin: 0 20px;"></div>
     </div>
+
+    <!-- Comments -->
+    <div class="row mb-1" *ngFor="let item of commentaires">
+      <div class="card border-secondary ">
+        <div class="card-body">
+          <markdown [data]="item.content"></markdown>
+          <p class="card-text"><small class="text-body-secondary"> Commented on {{ item.datePosted.toDate() | date:'medium'}} by @{{ item.postBy}} </small></p>
+        </div>  
+      </div>
+      <div style="border-left: 2px solid #ccc; height: 15px; margin: 0 20px;"></div>
+    </div>
+    <!-- END Comments -->
+
+
 
     <app-editor-issue 
       [componentName]='componentName'
-      [issueId]='issueId'
+      [issueId]='id'
       ></app-editor-issue>
 
   </div>
