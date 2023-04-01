@@ -19,6 +19,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { IssueDetailComponent } from './components/issue-detail/issue-detail.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { HttpClientModule } from '@angular/common/http';
+import { EditorIssueComponent } from './components/editor-issue/editor-issue.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 
 @NgModule({
@@ -26,7 +28,9 @@ import { HttpClientModule } from '@angular/common/http';
     AppComponent,
     IssuesComponent,
     NewIssueComponent,
-    IssueDetailComponent
+    IssueDetailComponent,
+    EditorIssueComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

@@ -1,11 +1,5 @@
-<!-- titre-->
-<div class="card mb-4">
-    <div class="card-body text-center">
-        This is some text within a card body.
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis possimus quasi, facere molestiae quo qui neque libero optio modi, repellendus culpa perferendis, impedit autem fugit dolores assumenda expedita quam laudantium.
-    </div>
-</div>
-<!-- end titre-->
+
+<app-navbar></app-navbar>
 
 <div class="row mb-4">
     <div class="col">
@@ -22,7 +16,7 @@
         <!--END filtres -->
     </div>
 
-    <div class="col col-lg-6">
+    <div class="col col-md-4">
         <div class="input-group">
         
         <input type="text" class="form-control form-control-sm" aria-label="Search all issues" placeholder="Search all issues">
@@ -44,6 +38,10 @@
 </div>
 
 <!-- Filtres appliquées -->
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>Clear current search query, filters, and sorts!</strong> 
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" (click)="clearFiltre()" ></button>
+</div>
 <!-- END Filtres appliquées -->
 
 <!--Issue list -->
@@ -60,7 +58,7 @@
                 </div>
                 
                 <div class="btn-group" role="group" aria-label="Second group">
-                    <button type="button" class="btn btn-link" style="color: inherit; font-weight: bold; text-decoration: none !important;">
+                    <button type="button" class="btn btn-link" style="color: inherit;  text-decoration: none !important;">
                     <i class="bi bi-check-circle-fill"></i> 4 Close 
                     </button>
 
@@ -70,16 +68,36 @@
     
         <!-- liste issues -->
         <ul class="list-group ">
-            <li *ngFor="let item of issues | async" class="list-group-item d-flex justify-content-between align-items-start">
-                <a (click)="goToDetail(item)" style="color: inherit; text-decoration: none !important;" >
-                <div class="ms-2 me-auto">
-                    <div class="fw-bold"><i class="bi bi-circle"></i> {{ item.title }} </div>
-                    #2313 Opened {{item.dateCreated  }} by {{ item.postBy }} 
-                </div>
+       
+                <a *ngFor="let item of issues | async" class="list-group-item list-group-item-action" (click)="goToDetail(item)">
+                    <div class="d-flex w-100 justify-content-between">
+                        <div *ngIf="item.status === 'isOpen'; else elseBlock">
+                            <h6 class="mb-1">
+                                <i class="bi bi-circle"></i> {{ item.title }} 
+                            </h6>
+                                <small class="text-body-secondary" >{{item.status}} {{item.dateCreated.toDate() | date:'medium' }} by @{{ item.postBy }} </small>
+
+                        </div>
+                        <ng-template #elseBlock>
+                            <h6 class="mb-1">
+                                <i class="bi bi-check-circle-fill"></i> {{ item.title }} 
+                            </h6>
+                                <small class="text-body-secondary" style="color: red;">{{item.status}} {{item.dateCreated.toDate() | date:'medium' }} by @{{ item.postBy }} </small>
+
+                        </ng-template>
+                        <small class="text-body-secondary"> <i class="bi bi-chat-right-text"></i> {{ item.comments?.length ?? 0  }}</small>
+                    </div>
+                    
+                    <!-- <small class="text-body-secondary" >{{item.status}} {{item.dateCreated.toDate() | date:'medium' }} by @{{ item.postBy }} </small> -->
                 </a>
-            </li>
         </ul>
         <!-- END liste issues -->
+
+        <!-- No issues yet-->
+        <div *ngIf="(issues | async)?.length==0" style="display: flex;justify-content: center;">
+            No issues found.
+        </div>  
+        <!-- END No issues -->      
 
         </div>
     </div>
