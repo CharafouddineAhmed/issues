@@ -1,10 +1,11 @@
-<div class="row">
-    <form  [formGroup]="issueForm" >
-        <ng-container *ngIf="viewOption; else templateA">
+
+<div class="row" >
+    <form  [formGroup]="issueForm" novalidate >
+        <ng-container *ngIf="viewOption; else templateB">
 
             <ng-container *ngIf="componentName !=='IssueDetailComponent'"> 
                 <div class="mb-3">
-                    <input class="form-control" type="text" placeholder="{{title}}" aria-label="Disabled input example" disabled>
+                    <input class="form-control" type="text" placeholder="{{titre}}" aria-label="Disabled input example" disabled>
                 </div>
             </ng-container>
            
@@ -21,17 +22,17 @@
                     </ul></div>
                     <div class="card-body text-secondary">
                         <div class="mb-3">
-                            <markdown [data]="content"></markdown>
+                            <markdown [data]="contenu"></markdown>
                         </div>
                     </div>
                 </div>
             </div>
         </ng-container>
-        <ng-template #templateA>
+        <ng-template #templateB>
 
             <ng-container *ngIf="componentName !=='IssueDetailComponent'"> 
                 <div class="mb-3">
-                    <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" placeholder="Title" formControlName="title" id="title">
+                    <input type="text" class="form-control" aria-label="Small" placeholder="Title" formControlName="title" id="title" name="title" required>
                 </div>
             </ng-container>
             
@@ -47,19 +48,23 @@
                     </ul></div>
                     <div class="card-body text-secondary">
                         <div class="mb-3">
-                        <textarea class="form-control" id="content" rows="3" placeholder="leave a comment" formControlName="content" ></textarea>
+                            <textarea class="form-control" id="content" rows="4" placeholder="Leave a comment" formControlName="content" name="content" ></textarea>
+                            <div id="" class="form-text" *ngIf="issueForm.invalid && (issueForm.dirty || issueForm.touched)" >
+                                The content or the title of the issue must have at least 1 character.
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
         </ng-template>
 
-        <div class="mb-3 ">
+        <div class="">
             <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
 
             <ng-container *ngIf="componentName !== 'NewIssueComponent' ">
                 <div class="btn-group me-2" role="group" aria-label="First group">
-                    <button type="button" class="btn btn-sm btn-secondary">Close as completed</button>
+                    <button type="button" (click)="closeCompletedIssue()" class="btn btn-sm btn-secondary">Close as completed</button>
                 </div>
                 <div class="btn-group me-2" role="group" aria-label="Second group">
                     <button type="button" class="btn btn-sm btn-secondary">Close as not planned</button>
@@ -69,7 +74,7 @@
                 </div>
 
                 <div class="btn-group me-2" role="group" aria-label="First group">
-                    <button type="button" (click)="addNewCommentInIssue()" class="btn btn-sm btn-success">Comment</button>
+                    <button type="button" (click)="addNewCommentInIssue()" class="btn btn-sm btn-success"  [disabled]="issueForm.invalid">Comment</button>
                 </div>
                 <div class="btn-group me-2" role="group" aria-label="Second group">
                     <button type="button" class="btn btn-sm btn-secondary" routerLink="/issues">List issues</button>
@@ -80,7 +85,7 @@
             <ng-container *ngIf="componentName === 'NewIssueComponent' ">
                 
                 <div class="btn-group me-2" role="group" aria-label="First group">
-                    <button type="button" (click)="addNewIssue()" class="btn btn-sm btn-success">Submit new issue</button>
+                    <button type="button" (click)="addNewIssue()" class="btn btn-sm btn-success" [disabled]="issueForm.invalid">Submit new issue</button>
                 </div>
                 <div class="btn-group me-2" role="group" aria-label="Second group">
                     <button type="button" class="btn btn-sm btn-secondary" routerLink="/issues">List issues</button>
@@ -88,9 +93,13 @@
 
             </ng-container>
 
-
-              
             </div>
         </div>
     </form>
 </div>
+
+
+
+
+
+

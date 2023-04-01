@@ -20,6 +20,7 @@ import { IssueDetailComponent } from './components/issue-detail/issue-detail.com
 import { MarkdownModule } from 'ngx-markdown';
 import { HttpClientModule } from '@angular/common/http';
 import { EditorIssueComponent } from './components/editor-issue/editor-issue.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { EditorIssueComponent } from './components/editor-issue/editor-issue.com
     IssuesComponent,
     NewIssueComponent,
     IssueDetailComponent,
-    EditorIssueComponent
+    EditorIssueComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

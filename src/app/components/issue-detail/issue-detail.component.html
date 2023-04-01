@@ -1,17 +1,15 @@
-<!-- titre-->
-<div class="card mb-4">
-    <div class="card-body text-center">
-        This is some text within a card body.
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis possimus quasi, facere molestiae quo qui neque libero optio modi, repellendus culpa perferendis, impedit autem fugit dolores assumenda expedita quam laudantium.
-    </div>
-</div>
-<!-- end titre-->
+
+<app-navbar></app-navbar>
+
 
 <!--Alert -->
-<div class="alert alert-warning alert-dismissible fade show" role="alert">
-  <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div>
+<ng-container *ngIf="popup_view">
+  <div class="alert {{ popup_color }} alert-dismissible fade show" role="alert">
+    <strong>Holy guacamole!</strong> {{ popup_message}}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+</ng-container>
+
 <!--END Alert-->
 
 <!--Issue details -->
@@ -49,24 +47,36 @@
     </div>
 
     <!-- Comments -->
-    <div class="row mb-1" *ngFor="let item of commentaires">
-      <div class="card border-secondary ">
-        <div class="card-body">
-          <markdown [data]="item.content"></markdown>
-          <p class="card-text"><small class="text-body-secondary"> Commented on {{ item.datePosted.toDate() | date:'medium'}} by @{{ item.postBy}} </small></p>
-        </div>  
+    <div class="row mb-1" *ngFor="let commentaire of commentaires">
+
+      <div *ngIf="commentaire.type === 'closeCompletedIssue'; else elseBlock">
+        <div class="card text-bg-dark ">
+          <div class="card-body">
+            <p class="card-text">{{ (issue$ | async)?.postBy }} closed this as completed on {{ commentaire.datePosted.toDate() | date:'medium'}}</p>
+          </div>
+        </div>
+        <div style="border-left: 2px solid #ccc; height: 15px; margin: 0 20px;"></div>
       </div>
-      <div style="border-left: 2px solid #ccc; height: 15px; margin: 0 20px;"></div>
+      <ng-template #elseBlock>
+        <div class="card border-dark">
+          <div class="card-body">
+            <markdown [data]="commentaire.content"></markdown>
+            <p class="card-text"><small class="text-body-secondary"> Commented on {{ commentaire.datePosted.toDate() | date:'medium'}} by @{{ commentaire.postBy}}  {{commentaire.type}} </small></p>
+          </div>  
+        </div>
+        <div style="border-left: 2px solid #ccc; height: 15px; margin: 0 20px;"></div>
+      </ng-template>
+      
     </div>
     <!-- END Comments -->
 
-
-
     <app-editor-issue 
-      [componentName]='componentName'
-      [issueId]='id'
-      ></app-editor-issue>
-
+    [componentName]='componentName'
+    [issueId]='id'
+    (popup)='onPopup($event)'
+    ></app-editor-issue>
+ 
+  
   </div>
   <!--END Issue details-->
 

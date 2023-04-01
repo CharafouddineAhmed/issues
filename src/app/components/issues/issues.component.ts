@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-import { elementAt, Observable } from 'rxjs';
 import { Issue } from '../../modeles/issue';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Observable, BehaviorSubject, combineLatest } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+import { NavbarService } from 'src/app/services/navbar.service';
 
 
 @Component({
@@ -13,10 +16,26 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 export class IssuesComponent  {
   private itemsCollection: AngularFirestoreCollection<Issue>;
   issues: Observable<Issue[]>;
-  constructor(private readonly afs: AngularFirestore, private router: Router) {
+
+  countComments: boolean | undefined;
+
+  constructor(
+    private readonly afs: AngularFirestore, 
+    private router: Router,
+    private navbar: NavbarService) {
     this.itemsCollection = afs.collection<Issue>('issues');
-    // this.issues = this.itemsCollection.valueChanges({ idField: 'customID' });
-    this.issues = this.itemsCollection.valueChanges();
+    this.issues = this.itemsCollection.snapshotChanges().pipe(
+      map( actions => actions.map( a => {
+        const data = a.payload.doc.data() as Issue;
+        console.log(data);
+        
+        const id = a.payload.doc.id; 
+
+        return {id, ...data}
+      }) )
+    );
+    
+    
   }
   
 
@@ -26,7 +45,27 @@ export class IssuesComponent  {
     // so that the HeroList component can select that item.
     this.router.navigate(['/details', { id: issue.id }]); 
 
-  }  
+  } 
+
+  clearFiltre(){
+    console.log("clear filtre");
+  }
+
+  getIssuesCount() {
+    this.issues.subscribe(data => {
+      if (data.length === 0) {
+        return true;
+      } else {
+  
+        return false;
+  
+      }
+    });
+  }
+  
+  goToHome() {
+    this.navbar.goTo('issues');
+  }
 
 }
 

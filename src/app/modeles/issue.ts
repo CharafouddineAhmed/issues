@@ -1,6 +1,6 @@
 export interface Issue {
   id?: String, 
-  status?: 'open' | 'close';
+  status?: 'isOpen' | 'isClose';
   title: any ;
   postBy?: String;
   dateCreated?: any;
@@ -12,6 +12,7 @@ export interface Comment {
   postBy?: String;
   datePosted?: any;
   content?: string;
+  type?:string;
 }
   
  

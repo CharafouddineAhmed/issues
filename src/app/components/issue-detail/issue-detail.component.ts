@@ -4,12 +4,18 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subject} from 'rxjs';
 import { Issue } from '../../modeles/issue';
 import { map } from 'rxjs/operators';
 import { Comment } from '../../modeles/issue';
 
 import { HttpClient } from '@angular/common/http';
+
+export interface Popup {
+  view: boolean,
+  color: string,
+  message: string
+}
 
 @Component({
   selector: 'app-issue-detail',
@@ -27,7 +33,9 @@ export class IssueDetailComponent  {
   issue: Issue | undefined;
   contenu : string = "";
   componentName: string = "";
-
+  popup_view: boolean = false;
+  popup_color: string = "";
+  popup_message: string = "";
 
   constructor(
     private route: ActivatedRoute, 
@@ -52,28 +60,22 @@ export class IssueDetailComponent  {
     
     this.issue$.forEach(element => {
       this.contenu = element?.content.replaceAll("\\n", "\n");
+      
     })
+
+    
+
+    
 
 
   }
 
+  onPopup(popup: Popup){
+    this.popup_view = popup.view;
+    this.popup_color = popup.color;
+    this.popup_message = popup.message;
+  }
 
-  /**
-   * Fonction à revoir
-   * @param id l'identifiant du post
-   */
-  // getMarkdownURL( id : string) {
-  //   const filePath = id + '.md';
-  //   const ref = this.storage.ref('contents/' + filePath);
-  //   ref.getDownloadURL().subscribe(url => {
-  //     this.http.get(url, {responseType: 'text'}).subscribe(fileContent => {
-  //       this.fileContent = fileContent; 
-  //     })
-  //     this.fileUrl = url;
-  // 
-  //     return 
-  //   });
-  // 
-  // }
-  // 
+ 
+
 }

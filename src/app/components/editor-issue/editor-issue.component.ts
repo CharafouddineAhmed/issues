@@ -1,14 +1,25 @@
-import { Component, Input } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormGroup, FormControl, Validators, FormBuilder  } from '@angular/forms';
 
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subject, switchMap } from 'rxjs';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import firebase from "firebase/compat/app";
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 
 import { Issue, Comment } from '../../modeles/issue';
 
+export interface Popup {
+  view: boolean,
+  color: string,
+  message: string
+}
+
+export interface Item {
+  text: string;
+  color: string;
+  size: string;
+}
 
 @Component({
   selector: 'app-editor-issue',
@@ -16,36 +27,57 @@ import { Issue, Comment } from '../../modeles/issue';
   // template: '<p>editor issue<p>',
   styleUrls: ['./editor-issue.component.css']
 })
-export class EditorIssueComponent {
+export class EditorIssueComponent implements OnInit {
 
   @Input('componentName') componentName = '';
   @Input('issueId') issueId = '';
+  @Output() popup = new EventEmitter<Popup>();
 
-  issueForm = new FormGroup({
-    title: new FormControl(''),
-    content: new FormControl(''),
-  });
+  popup_view: boolean = false;
+  popup_color: string = "";
+  popup_message: string = "";
 
+  issueForm!: FormGroup;
+  
   // false = writeComponent & true = previewComponent 
   viewOption : boolean = false;
   private issuesCollection: AngularFirestoreCollection<Issue>;
   // issues: Observable<Issue[]>;
-  content : string = "";
-  title : string = "";
+  contenu : string = "";
+  titre : string = "";
 
+  // items$: Observable<Item[]>;
+  // sizeFilter$: BehaviorSubject<string|null>;
+  // colorFilter$: BehaviorSubject<string|null>;
+// 
   constructor(
     private readonly afs: AngularFirestore, 
-    private storage: AngularFireStorage,
-    private router: Router
+    private router: Router,
+    private formBuilder: FormBuilder
   ){
     this.issuesCollection = afs.collection<Issue>('issues');
+
   }
+
+  ngOnInit(): void {
+      this.issueForm = this.formBuilder.group({
+        title: ['', ],
+        content: ['', [
+          Validators.required, 
+          Validators.minLength(1)
+        ]],
+      });
+  }
+
+  // get title() { return this.issueForm.get('title'); }
+  // get content() { return this.issueForm.get('content'); }
 
   previewIssue(){
     console.log("preview... ")
     this.viewOption = true;
-    this.content = this.issueForm.value.content?.replaceAll("\\n", "\n") || "";
-    this.title = this.issueForm.value.title || "";
+
+    this.contenu = this.issueForm?.value.content?.replaceAll("\\n", "\n") || "";
+    this.titre = this.issueForm?.value.title || "";
   }
 
   writeIssue(){
@@ -68,46 +100,82 @@ export class EditorIssueComponent {
 
     const issue: Issue = {
       id: id,
-      status: 'open', // default value
+      status: 'isOpen', // default value
       postBy: 'Ahmed CHARAFOUDDINE',
       title: this.issueForm.value.title,
       content: contentUpdated,
-      dateCreated: serverTimestamp(),
+      // dateCreated: serverTimestamp(),
+      dateCreated: new Date()
     };
 
     this.issuesCollection.doc(id).set(issue)
       .then(() => {
+        console.log("ajouter")
         this.issueForm.reset();
         this.router.navigate(['/issues']);
       })
       .catch( e => {console.error('error : ', e)})
-
-    // // Ajout dans storage 
-    // const fileName = id + '.md';
-    // const blob = new Blob([fileContent ? fileContent : ''], { type: 'text/markdown' });
-    // const ref = this.storage.ref('contents/'+ fileName);
-    // const task = ref.put(blob);
-    // task.then(() => {
-    //   console.log('Fichier envoyé');
-    // }).catch(error => {
-    //   console.error('Erreur lors de l\'envoi du fichier', error);
-    // });
   }
 
-
   addNewCommentInIssue(){
-
-    const { serverTimestamp } = firebase.firestore.FieldValue;
-
     const comment: Comment = {
       postBy: 'Ahmed CHARAFOUDDINE',
       content: this.issueForm.value.content?.replaceAll("\\n", "\n") || "",
       datePosted: new Date(),
+      type: "isOpen"
     }
 
     this.afs.doc(`issues/${this.issueId}`).update({
       comments: firebase.firestore.FieldValue.arrayUnion(comment)
-    });
+    }).then(() => {
 
+      this.popup.emit({
+          view: true, 
+          color: 'alert-success', 
+          message: 'Le nouveau commentaire à été publié'
+        })
+
+    }).catch(error => {
+      this.popup.emit({
+        view: true, 
+        color: 'alert-danger', 
+        message: "error lors de l'ajout du commentaire : " + error
+      })
+
+    })
   }
+
+  closeCompletedIssue(): void  {
+    
+    this.afs.doc(`issues/${this.issueId}`).update({
+      // status: firebase.firestore.FieldValue.arrayUnion('open')
+      status: 'isClose'
+    }).then(() => {
+      const d = new Date();
+      this.popup.emit({view: true, color: 'alert-success', message: 'Issue completed on ' + d.toString() })
+
+      const comment: Comment = {
+        postBy: 'Ahmed CHARAFOUDDINE',
+        content: this.issueForm.value.content?.replaceAll("\\n", "\n") || "",
+        datePosted: new Date(),
+        type: "closeCompletedIssue"
+      }
+
+      this.afs.doc(`issues/${this.issueId}`).update({
+        comments: firebase.firestore.FieldValue.arrayUnion(comment)
+      })
+
+    }).catch(error => {
+      
+      this.popup.emit({view: true, color: 'alert-danger', message: "error lors de la cloture du issue" + error})
+
+    })
+  }
+
+  // filterByType(type : string|null ){
+  //   this.typeFilter$.next(type);
+  // }
+
+ 
+
 }
