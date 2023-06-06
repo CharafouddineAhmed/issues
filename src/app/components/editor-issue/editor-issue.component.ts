@@ -62,6 +62,7 @@ export class EditorIssueComponent implements OnInit {
   ngOnInit(): void {
       this.issueForm = this.formBuilder.group({
         title: ['', ],
+        selectedOptionType: ['', ],
         content: ['', [
           Validators.required, 
           Validators.minLength(1)
@@ -96,7 +97,9 @@ export class EditorIssueComponent implements OnInit {
     const fileContent = this.issueForm.value.content;
 
     const contentUpdated = this.issueForm.value.content?.replace(/\n/g, '\\n');
-    console.log(contentUpdated);
+    const type = this.issueForm.get("selectedOptionType")?.value;
+
+    const color_type = this.getColor(type);
 
     const issue: Issue = {
       id: id,
@@ -105,7 +108,9 @@ export class EditorIssueComponent implements OnInit {
       title: this.issueForm.value.title,
       content: contentUpdated,
       // dateCreated: serverTimestamp(),
-      dateCreated: new Date()
+      dateCreated: new Date(),
+      type_name: type,
+      color_type: color_type,
     };
 
     this.issuesCollection.doc(id).set(issue)
@@ -177,5 +182,19 @@ export class EditorIssueComponent implements OnInit {
   // }
 
  
+  getColor(option: string): string {
+    switch (option) {
+      case 'Documentation':
+        return 'text-bg-dark';
+      case 'Blogs':
+        return 'text-bg-primary';
+      case 'Knowledge Articles':
+        return 'text-bg-warning';
+      case 'Known Issues':
+        return 'text-bg-danger';
+      default:
+        return 'text-bg-light';
+    }
+  }
 
 }

@@ -5,7 +5,10 @@ export interface Issue {
   postBy?: String;
   dateCreated?: any;
   content: any;
-  comments?: Comment[] 
+  comments?: Comment[];
+  type_name?: string;
+  color_type: string;
+
 }
 
 export interface Comment {
@@ -14,5 +17,6 @@ export interface Comment {
   content?: string;
   type?:string;
 }
+
   
  

@@ -47,6 +47,10 @@ export class IssuesComponent  {
 
   } 
 
+  goToLabel(){
+    this.router.navigate(['/label', {}]);
+  }
+
   clearFiltre(){
     console.log("clear filtre");
   }
